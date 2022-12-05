@@ -15,15 +15,22 @@ public class BloomFilterLinkedList extends AbstractBloomFilter {
     
     public BloomFilterLinkedList(){
         myLinkedList = new LinkedList<>();
+        for (int i = 0 ;i < 2048; i++){
+            myLinkedList.add(false);
+        }
     }
+    
     @Override
     public void add(int number){
-    myLinkedList.add(Hash.hashArraySize(number, myLinkedList),true);
-    myLinkedList.add(Hash.hashHashCode(number),true);
-    myLinkedList.add(Hash.hashPrimaty(number),true );
+        myLinkedList.set(Hash.hashArraySize(number, myLinkedList),true);
+        myLinkedList.set(Hash.hashHashCode(number, myLinkedList),true);
+        myLinkedList.set(Hash.hashPrimaty(number, myLinkedList),true );
     }
+    
     @Override
     public boolean countain(int number){
-        return false;
+        return myLinkedList.get(Hash.hashArraySize(number, myLinkedList)).equals(true) && 
+                myLinkedList.get((Hash.hashHashCode(number,myLinkedList))).equals(true)&& 
+                myLinkedList.get((Hash.hashPrimaty(number,myLinkedList))).equals(true);
     }
 }

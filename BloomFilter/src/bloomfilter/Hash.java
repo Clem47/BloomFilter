@@ -16,9 +16,14 @@ public class Hash {
     
     private Hash(){};
     
-    public static int hashPrimaty(int number){
-        return (number*A-B) %  97;
+    public static int hashPrimaty(int number,Collection array){
+        return ((number*A-B) %  97) % array.size()  ;
     }
+    
+    public static int hashPrimaty(int number, boolean[] array){
+        return ((number*A-B) %  97) % array.length;
+    }
+    
     
     public static int hashArraySize(int number , boolean[] array){
         return (number*A-B) % array.length;
@@ -28,8 +33,13 @@ public class Hash {
         return (number*A-B) % array.size();
     }
     
-    public static int hashHashCode(int number){
+    public static int hashHashCode(int number,Collection array){
         Integer myNumber = number;
-        return  myNumber.hashCode();
+        return  myNumber.hashCode()% array.size();
+    }
+    
+    public static int hashHashCode(int number, boolean[] array){
+        Integer myNumber = number;
+        return  myNumber.hashCode() % array.length ;
     }
 }
