@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class BloomFilterArrayList extends AbstractBloomFilter {
     ArrayList myListe;
     
-    public BloomFilterArrayList(){
+    public BloomFilterArrayList(int size){
         myListe = new ArrayList<>();
         for (int i = 0 ;i < 2048; i++){
             myListe.add(false);

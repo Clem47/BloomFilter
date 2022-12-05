@@ -13,9 +13,9 @@ import java.util.LinkedList;
 public class BloomFilterLinkedList extends AbstractBloomFilter {
     LinkedList myLinkedList;
     
-    public BloomFilterLinkedList(){
+    public BloomFilterLinkedList(int size){
         myLinkedList = new LinkedList<>();
-        for (int i = 0 ;i < 2048; i++){
+        for (int i = 0 ;i < size; i++){
             myLinkedList.add(false);
         }
     }
@@ -32,5 +32,9 @@ public class BloomFilterLinkedList extends AbstractBloomFilter {
         return myLinkedList.get(Hash.hashArraySize(number, myLinkedList)).equals(true) && 
                 myLinkedList.get((Hash.hashHashCode(number,myLinkedList))).equals(true)&& 
                 myLinkedList.get((Hash.hashPrimaty(number,myLinkedList))).equals(true);
+    }
+    
+    public LinkedList getLinkedList(){
+        return myLinkedList;
     }
 }

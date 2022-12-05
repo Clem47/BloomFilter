@@ -10,9 +10,10 @@ package bloomfilter;
  */
 public class BloomFilterArray extends AbstractBloomFilter {
    
-    private boolean tab[] = new boolean[2048];
+    private boolean tab[];
     
-    public BloomFilterArray(){
+    public BloomFilterArray(int size){
+        tab = new boolean[size];
         for(int i = 0; i < tab.length-1; i++){
             tab[i] = false;
         }
