@@ -10,6 +10,6 @@ package bloomfilter;
  */
 public abstract class AbstractBloomFilter {
     public abstract void add(int number);
-    public abstract boolean countain(int number);
+    public abstract boolean contain(int number);
     
 }

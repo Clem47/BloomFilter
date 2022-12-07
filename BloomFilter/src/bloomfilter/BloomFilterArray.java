@@ -11,9 +11,11 @@ package bloomfilter;
 public class BloomFilterArray extends AbstractBloomFilter {
    
     private boolean tab[];
+    private final int K;
     
-    public BloomFilterArray(int size){
+    public BloomFilterArray(int size, int k){
         tab = new boolean[size];
+        K = k;
         for(int i = 0; i < tab.length-1; i++){
             tab[i] = false;
         }
@@ -21,15 +23,19 @@ public class BloomFilterArray extends AbstractBloomFilter {
     
     @Override
     public void add(int number){
-        tab[Hash.hashArraySize(number, tab)] = true;
-        tab[Hash.hashHashCode(number, tab)] = true;
-        tab[Hash.hashPrimaty(number, tab)] = true ;
+        for(int i = 1; i <= K ; i++){
+            tab[Hash.hashPrimaty(number, tab,i)] = true ;
+        }
     }
     
     @Override
-    public boolean countain(int number){
-        return tab[Hash.hashArraySize(number, tab)] &&
-               tab[Hash.hashHashCode(number, tab)] && 
-               tab[Hash.hashPrimaty(number, tab)];
+    public boolean contain(int number){
+        boolean isContain = true;
+        int i = 1;
+        while(isContain && i <= K){
+            isContain &= tab[Hash.hashPrimaty(number, tab,i)];
+            i++;
+        }
+        return isContain;
     }
 }

@@ -11,10 +11,12 @@ import java.util.LinkedList;
  * @author ccrispel
  */
 public class BloomFilterLinkedList extends AbstractBloomFilter {
-    LinkedList myLinkedList;
+    LinkedList<Boolean> myLinkedList;
+    private final int K;
     
-    public BloomFilterLinkedList(int size){
+    public BloomFilterLinkedList(int size, int k){
         myLinkedList = new LinkedList<>();
+        K = k;
         for (int i = 0 ;i < size; i++){
             myLinkedList.add(false);
         }
@@ -22,19 +24,23 @@ public class BloomFilterLinkedList extends AbstractBloomFilter {
     
     @Override
     public void add(int number){
-        myLinkedList.set(Hash.hashArraySize(number, myLinkedList),true);
-        myLinkedList.set(Hash.hashHashCode(number, myLinkedList),true);
-        myLinkedList.set(Hash.hashPrimaty(number, myLinkedList),true );
+        for(int i = 1; i <= K ; i++){
+            myLinkedList.set(Hash.hashPrimaty(number, myLinkedList,i),true );
+        }
     }
     
     @Override
-    public boolean countain(int number){
-        return myLinkedList.get(Hash.hashArraySize(number, myLinkedList)).equals(true) && 
-                myLinkedList.get((Hash.hashHashCode(number,myLinkedList))).equals(true)&& 
-                myLinkedList.get((Hash.hashPrimaty(number,myLinkedList))).equals(true);
+    public boolean contain(int number){
+        boolean isContain = true;
+        int i = 1;
+        while(isContain && i <= K){
+            isContain &= myLinkedList.get((Hash.hashPrimaty(number,myLinkedList,i)));
+            i++;
+        }
+        return isContain;
     }
     
     public LinkedList getLinkedList(){
-        return myLinkedList;
+        return new LinkedList(myLinkedList);
     }
 }

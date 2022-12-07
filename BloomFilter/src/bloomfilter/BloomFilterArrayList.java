@@ -11,10 +11,12 @@ import java.util.ArrayList;
  * @author ccrispel
  */
 public class BloomFilterArrayList extends AbstractBloomFilter {
-    ArrayList myListe;
+    ArrayList<Boolean> myListe;
+    private final int K;
     
-    public BloomFilterArrayList(int size){
+    public BloomFilterArrayList(int size, int k){
         myListe = new ArrayList<>();
+        K = k;
         for (int i = 0 ;i < 2048; i++){
             myListe.add(false);
         }
@@ -22,15 +24,19 @@ public class BloomFilterArrayList extends AbstractBloomFilter {
     
     @Override
     public void add(int number){
-        myListe.set(Hash.hashArraySize(number, myListe),true);
-        myListe.set(Hash.hashHashCode(number, myListe),true);
-        myListe.set(Hash.hashPrimaty(number, myListe),true );
+        for(int i = 1; i <= K ; i++){
+            myListe.set(Hash.hashPrimaty(number, myListe,i),true );
+        }
     }
-  
+    
     @Override
-    public boolean countain(int number){
-        return myListe.get(Hash.hashArraySize(number, myListe)).equals(true) && 
-                myListe.get((Hash.hashHashCode(number,myListe))).equals(true)&& 
-                myListe.get((Hash.hashPrimaty(number,myListe))).equals(true);
+    public boolean contain(int number){
+        boolean isContain = true;
+        int i = 1;
+        while(isContain && i <= K){
+            isContain &= myListe.get((Hash.hashPrimaty(number,myListe,i)));
+            i++;
+        }
+        return isContain;
     }
 }
