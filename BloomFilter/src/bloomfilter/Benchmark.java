@@ -15,7 +15,7 @@ public class Benchmark {
      
     private final static int N = 6000;
     private final static int K = 5;
-    private final static int TAB_VALUE = 11000;
+    private final static int TAB_VALUE = 30;
     
     
     /**
