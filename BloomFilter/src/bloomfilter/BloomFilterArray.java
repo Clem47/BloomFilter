@@ -21,6 +21,10 @@ public class BloomFilterArray extends AbstractBloomFilter {
         }
     }
     
+    /**
+     * Add value to bloom filter
+     * @param number value to add
+     */
     @Override
     public void add(int number){
         for(int i = 1; i <= K ; i++){
@@ -28,12 +32,17 @@ public class BloomFilterArray extends AbstractBloomFilter {
         }
     }
     
+    /**
+     * Check if a value is contain 
+     * @param number value to check
+     * @return true if the value is contain
+     */
     @Override
     public boolean contain(int number){
         boolean isContain = true;
         int i = 1;
         while(isContain && i <= K){
-            isContain &= tab[Hash.hashPrimaty(number, tab,i)];
+            isContain = isContain && tab[Hash.hashPrimaty(number, tab,i)];
             i++;
         }
         return isContain;

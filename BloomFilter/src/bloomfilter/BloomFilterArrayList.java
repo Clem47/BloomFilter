@@ -17,11 +17,15 @@ public class BloomFilterArrayList extends AbstractBloomFilter {
     public BloomFilterArrayList(int size, int k){
         myListe = new ArrayList<>();
         K = k;
-        for (int i = 0 ;i < 2048; i++){
+        for (int i = 0 ;i < size; i++){
             myListe.add(false);
         }
     }
     
+     /**
+     * Add value to bloom filter
+     * @param number value to add
+     */
     @Override
     public void add(int number){
         for(int i = 1; i <= K ; i++){
@@ -29,12 +33,17 @@ public class BloomFilterArrayList extends AbstractBloomFilter {
         }
     }
     
+     /**
+     * Check if a value is contain 
+     * @param number value to check
+     * @return true if the value is contain
+     */
     @Override
     public boolean contain(int number){
         boolean isContain = true;
         int i = 1;
         while(isContain && i <= K){
-            isContain &= myListe.get((Hash.hashPrimaty(number,myListe,i)));
+            isContain = isContain && myListe.get((Hash.hashPrimaty(number,myListe,i)));
             i++;
         }
         return isContain;

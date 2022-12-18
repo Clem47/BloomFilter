@@ -22,6 +22,10 @@ public class BloomFilterLinkedList extends AbstractBloomFilter {
         }
     }
     
+    /**
+     * Add value to bloom filter
+     * @param number value to add
+     */
     @Override
     public void add(int number){
         for(int i = 1; i <= K ; i++){
@@ -29,18 +33,19 @@ public class BloomFilterLinkedList extends AbstractBloomFilter {
         }
     }
     
+    /**
+     * Check if a value is contain 
+     * @param number value to check
+     * @return true if the value is contain
+     */
     @Override
     public boolean contain(int number){
         boolean isContain = true;
         int i = 1;
         while(isContain && i <= K){
-            isContain &= myLinkedList.get((Hash.hashPrimaty(number,myLinkedList,i)));
+            isContain = isContain && myLinkedList.get(Hash.hashPrimaty(number,myLinkedList,i));
             i++;
         }
         return isContain;
-    }
-    
-    public LinkedList getLinkedList(){
-        return new LinkedList(myLinkedList);
     }
 }
